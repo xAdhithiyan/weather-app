@@ -1,5 +1,5 @@
 import 'normalize.css';
 import './css/main.css';
-import getWeather from './components/api';
+import processWeather from './components/api';
 
-getWeather();
+processWeather('chennai');
