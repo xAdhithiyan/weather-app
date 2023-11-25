@@ -1,5 +1,12 @@
 import elFactory from '../elFactory';
 import processWeather from './api';
+import humidity from '../../asset/humidity.svg';
+import wind from '../../asset/wind_kph.svg';
+import precip from '../../asset/precip_mm.svg';
+import cloud from '../../asset/cloud.svg';
+import pressure from '../../asset/pressure_mb.svg';
+import searchImage from '../../asset/search.svg';
+import githubImage from '../../asset/github.svg';
 
 async function populateCards(area) {
   try {
@@ -69,12 +76,16 @@ function currentWeatherCard(data) {
 function extraInfoCard(data) {
   let frameElements = document.querySelector('.extraInfo').children;
   frameElements = Array.from(frameElements);
+  const extraInfoImages = [humidity, wind, precip, cloud, pressure];
+  let count = 0;
   Object.keys(data.extraInfoValues).forEach((key) => {
     frameElements.forEach((element) => {
       if (key === element.classList.value) {
         const img = element.children[0];
-        img.setAttribute('src', `../asset/${key}.svg`);
+        console.log(key);
+        img.setAttribute('src', extraInfoImages[count]);
         img.setAttribute('alt', key);
+        count++;
 
         const val = element.children[2];
         val.textContent = data.extraInfoValues[key];
@@ -195,4 +206,12 @@ function errorHandling() {
   span.textContent = '*Please enter a valid city';
 }
 
+// eslint-disable-next-line
+const settingImage = (() => {
+  const search = document.querySelector('.search');
+  const github = document.querySelector('.github');
+
+  search.setAttribute('src', searchImage);
+  github.setAttribute('src', githubImage);
+})();
 export default populateCards;
