@@ -1,6 +1,7 @@
 // no need to use try and catch block since async function returns a promise. A problem in the fetch request will directly send a reject
 async function getWeather(area) {
-  const url = `https://api.weatherapi.com/v1/forecast.json?key=ac66662de5e14d8d983165313232311&q=${area}`;
+  const APIkey = 'ac66662de5e14d8d983165313232311';
+  const url = `https://api.weatherapi.com/v1/forecast.json?key=${APIkey}&q=${area}`;
   const response = await fetch(url, {
     mode: 'cors',
   });

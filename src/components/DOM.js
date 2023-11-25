@@ -82,7 +82,6 @@ function extraInfoCard(data) {
     frameElements.forEach((element) => {
       if (key === element.classList.value) {
         const img = element.children[0];
-        console.log(key);
         img.setAttribute('src', extraInfoImages[count]);
         img.setAttribute('alt', key);
         count++;
