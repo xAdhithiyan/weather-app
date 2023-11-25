@@ -15,25 +15,36 @@ async function getWeather(area) {
 async function processWeather(area) {
   try {
     const data = await getWeather(area);
-    const requiredDataObj = {
+    const currentWeatherValues = {
       [getKey('data.location.name')]: data.location.name,
       [getKey('data.location.region')]: data.location.region,
       [getKey('data.current.temp_c')]: data.current.temp_c,
-      [getKey('data.current.temp_f')]: data.current.temp_f,
       [getKey('data.current.feelslike_c')]: data.current.feelslike_c,
-      [getKey('data.current.feelslike_fs')]: data.current.feelslike_f,
       [getKey('data.current.condition')]: data.current.condition.text,
-
+      [getKey('data.current.condition.icon')]: data.current.condition.icon,
+    };
+    const extraInfoValues = {
       [getKey('data.current.humidity')]: data.current.humidity,
       [getKey('data.current.wind_kph')]: data.current.wind_kph,
       [getKey('data.current.precip_mm')]: data.current.precip_mm,
       [getKey('data.current.cloud')]: data.current.cloud,
       [getKey('data.current.pressure_mb')]: data.current.pressure_mb,
-
+    };
+    const hourlInfoValues = {
       [getKey('data.forecast.forecastday[0].hour')]:
         data.forecast.forecastday[0].hour,
     };
-    return requiredDataObj;
+    const fahrenheitValues = {
+      [getKey('data.current.temp_f')]: data.current.temp_f,
+      [getKey('data.current.feelslike_fs')]: data.current.feelslike_f,
+    };
+
+    return {
+      currentWeatherValues,
+      extraInfoValues,
+      hourlInfoValues,
+      fahrenheitValues,
+    };
   } catch (error) {
     console.log(error);
   }

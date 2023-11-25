@@ -1,5 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+:root {
+  font-family: 'Roboto', sans-serif;
+  --main-color: #1a1a1d;
+  --sub-color: #6f2332;
+}
+
 body {
-  background-color: grey;
+  background-color: var(--main-color);
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -12,21 +19,46 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 0.5fr 1fr 1fr;
-  gap: 20px;
+  gap: 30px;
 }
 
 .mainFrame > div {
   border: 2px solid black;
   box-sizing: border-box;
 }
+
+/* currentWeather card */
 .currentWeather {
   grid-row: 1/ 3;
-  width: 100%;
+  text-align: center;
+  padding-top: 4px;
+  color: var(--main-color);
+  background-color: var(--sub-color);
+  border-radius: 10px;
+  border: 5px solid black !important;
+}
+.currentWeather > div {
+  opacity: 0.7;
+}
+.name {
+  font-size: 9vh;
+  font-weight: bold;
+}
+.temp_c {
+  font-size: 8vh;
+  font-weight: bold;
+}
+.region,
+.feelslike_c {
+  font-size: 3vh;
+}
+.condition {
+  font-size: 4vh;
+}
+.icon {
+  height: 11vh;
 }
 
-.currentWeatherFrame {
-  background-color: coral;
-}
 .hourlyInfo {
   grid-column: 1 / 3;
 }
