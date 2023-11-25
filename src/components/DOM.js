@@ -6,6 +6,7 @@ async function populateCards(area) {
 
   // all the cards to be populated
   currentWeatherCard(data);
+  extraInfoCard(data);
 }
 
 function currentWeatherCard(data) {
@@ -40,6 +41,40 @@ function currentWeatherCard(data) {
         elFactory('div', { class: key }, data.currentWeatherValues[key])
       );
     }
+  });
+}
+
+function extraInfoCard(data) {
+  console.log(data.extraInfoValues);
+
+  let frameElements = document.querySelector('.extraInfo').children;
+  frameElements = Array.from(frameElements);
+  console.log(frameElements);
+  Object.keys(data.extraInfoValues).forEach((key) => {
+    frameElements.forEach((element) => {
+      if (key === element.classList.value) {
+        const img = element.children[0];
+        img.setAttribute('src', `../asset/${key}.svg`);
+        img.setAttribute('alt', key);
+
+        const val = element.children[2];
+        val.textContent = data.extraInfoValues[key];
+      }
+    });
+
+    /*     const div = document.createElement('div');
+    console.log(key);
+    div.appendChild(
+      elFactory('img', {
+        src: `../asset/${key}.svg`,
+        alt: key,
+      })
+    );
+
+    div.appendChild(elFactory('div', { class: key }, key));
+    div.appendChild(
+      elFactory('div', { class: `${key} values` }, data.extraInfoValues[key])
+    ); */
   });
 }
 
