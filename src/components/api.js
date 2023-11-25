@@ -15,6 +15,7 @@ async function getWeather(area) {
 async function processWeather(area) {
   try {
     const data = await getWeather(area);
+    console.log(data);
     const currentWeatherValues = {
       [getKey('data.location.name')]: data.location.name,
       [getKey('data.location.region')]: data.location.region,
@@ -37,7 +38,7 @@ async function processWeather(area) {
     };
     const fahrenheitValues = {
       [getKey('data.current.temp_f')]: data.current.temp_f,
-      [getKey('data.current.feelslike_fs')]: data.current.feelslike_f,
+      [getKey('data.current.feelslike_f')]: data.current.feelslike_f,
     };
 
     return {

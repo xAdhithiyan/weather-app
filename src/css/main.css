@@ -165,4 +165,21 @@ input::placeholder {
 }
 .temperatureSwitch > div:first-child {
   border-right: 5px solid black;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.temperatureSwitch > div:nth-child(2) {
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* toggles */
+.toggle {
+  color: var(--main-color);
+  background-color: var(--sub-color);
+}
+
+#displayToggle {
+  display: none;
 }

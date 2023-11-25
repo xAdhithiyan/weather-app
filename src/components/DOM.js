@@ -8,6 +8,7 @@ async function populateCards(area) {
   currentWeatherCard(data);
   extraInfoCard(data);
   hourlyInfoCard(data);
+  resetTemperatureSwitch();
 }
 
 function currentWeatherCard(data) {
@@ -21,12 +22,26 @@ function currentWeatherCard(data) {
       frame.appendChild(
         elFactory('div', { class: key }, `${data.currentWeatherValues[key]}°C`)
       );
+      frame.appendChild(
+        elFactory(
+          'div',
+          { class: key, id: 'displayToggle' },
+          `${data.fahrenheitValues.temp_f}°F`
+        )
+      );
     } else if (key === 'feelslike_c') {
       frame.appendChild(
         elFactory(
           'div',
           { class: key },
           `Feels Like: ${data.currentWeatherValues[key]}°C`
+        )
+      );
+      frame.appendChild(
+        elFactory(
+          'div',
+          { class: key, id: 'displayToggle' },
+          `Feels Like: ${data.fahrenheitValues.feelslike_f}°F`
         )
       );
     } else if (key === 'icon') {
@@ -65,9 +80,7 @@ function extraInfoCard(data) {
 function hourlyInfoCard(data) {
   const frame = document.querySelector('.hourlyInfo');
   frame.innerHTML = '';
-  const currentTime = data.hourlyInfoValues.localtime
-    .split(' ')[1]
-    .split(':')[0];
+  let currentTime = data.hourlyInfoValues.localtime.split(' ')[1].split(':')[0];
   let session = 'am';
   let displayTime;
 
@@ -75,8 +88,8 @@ function hourlyInfoCard(data) {
     // stupid conversion of 24hr to 12hr clock
     if (parseInt(currentTime, 10) + i >= 24) {
       displayTime = parseInt(currentTime, 10) - 24;
+      currentTime = 0 - i;
       session = 'am';
-      console.log(displayTime + i);
       if (displayTime + i === 0) {
         displayTime = 12 - i;
       }
@@ -96,12 +109,25 @@ function hourlyInfoCard(data) {
 
     div.appendChild(
       elFactory('img', {
-        src: `http:${data.hourlyInfoValues.hour[i].condition.icon}`,
+        src: `http:${
+          data.hourlyInfoValues.hour[parseInt(currentTime, 10) + i].condition
+            .icon
+        }`,
       })
     );
-
     div.appendChild(
-      elFactory('div', {}, `${data.hourlyInfoValues.hour[i].temp_c}°C`)
+      elFactory(
+        'div',
+        { class: 'forcastValues' },
+        `${data.hourlyInfoValues.hour[parseInt(currentTime, 10) + i].temp_c}°C`
+      )
+    );
+    div.appendChild(
+      elFactory(
+        'div',
+        { class: 'forcastValues', id: 'displayToggle' },
+        `${data.hourlyInfoValues.hour[parseInt(currentTime, 10) + i].temp_f}°F`
+      )
     );
 
     frame.appendChild(div);
@@ -125,6 +151,38 @@ function searchEvent() {
   const area = document.querySelector('.searchBar').value;
   populateCards(area);
   document.querySelector('.searchBar').value = '';
+}
+
+// eslint-disable-next-line
+const temperateSwitch = (() => {
+  const btn = document.querySelector('.temperatureSwitch');
+  btn.addEventListener('click', () => {
+    btn.children[0].classList.toggle('toggle');
+    btn.children[1].classList.toggle('toggle');
+
+    let mainTempChange = document.querySelectorAll('.temp_c');
+    mainTempChange = Array.from(mainTempChange);
+    let feelsTempChange = document.querySelectorAll('.feelslike_c');
+    feelsTempChange = Array.from(feelsTempChange);
+    let forecastChange = document.querySelectorAll('.forcastValues');
+    forecastChange = Array.from(forecastChange);
+
+    const allChange = mainTempChange.concat(feelsTempChange, forecastChange);
+    allChange.forEach((element) => {
+      if (element.id === 'displayToggle') {
+        element.setAttribute('id', '');
+      } else {
+        element.setAttribute('id', 'displayToggle');
+      }
+    });
+  });
+})();
+
+function resetTemperatureSwitch() {
+  const btn = document.querySelector('.temperatureSwitch');
+  // to reset the color when new city is
+  btn.children[0].classList.add('toggle');
+  btn.children[1].classList.remove('toggle');
 }
 
 // to populate when the window opens
