@@ -30,9 +30,10 @@ async function processWeather(area) {
       [getKey('data.current.cloud')]: data.current.cloud,
       [getKey('data.current.pressure_mb')]: data.current.pressure_mb,
     };
-    const hourlInfoValues = {
+    const hourlyInfoValues = {
       [getKey('data.forecast.forecastday[0].hour')]:
         data.forecast.forecastday[0].hour,
+      [getKey('data.location.localtime')]: data.location.localtime,
     };
     const fahrenheitValues = {
       [getKey('data.current.temp_f')]: data.current.temp_f,
@@ -42,7 +43,7 @@ async function processWeather(area) {
     return {
       currentWeatherValues,
       extraInfoValues,
-      hourlInfoValues,
+      hourlyInfoValues,
       fahrenheitValues,
     };
   } catch (error) {

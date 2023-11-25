@@ -7,6 +7,7 @@ async function populateCards(area) {
   // all the cards to be populated
   currentWeatherCard(data);
   extraInfoCard(data);
+  hourlyInfoCard(data);
 }
 
 function currentWeatherCard(data) {
@@ -45,11 +46,8 @@ function currentWeatherCard(data) {
 }
 
 function extraInfoCard(data) {
-  console.log(data.extraInfoValues);
-
   let frameElements = document.querySelector('.extraInfo').children;
   frameElements = Array.from(frameElements);
-  console.log(frameElements);
   Object.keys(data.extraInfoValues).forEach((key) => {
     frameElements.forEach((element) => {
       if (key === element.classList.value) {
@@ -61,21 +59,53 @@ function extraInfoCard(data) {
         val.textContent = data.extraInfoValues[key];
       }
     });
+  });
+}
 
-    /*     const div = document.createElement('div');
-    console.log(key);
+function hourlyInfoCard(data) {
+  const frame = document.querySelector('.hourlyInfo');
+  frame.innerHTML = '';
+  const currentTime = data.hourlyInfoValues.localtime
+    .split(' ')[1]
+    .split(':')[0];
+  let session = 'am';
+  let displayTime;
+
+  for (let i = 1; i < 6; i++) {
+    // stupid conversion of 24hr to 12hr clock
+    if (parseInt(currentTime, 10) + i >= 24) {
+      displayTime = parseInt(currentTime, 10) - 24;
+      session = 'am';
+      console.log(displayTime + i);
+      if (displayTime + i === 0) {
+        displayTime = 12 - i;
+      }
+    } else if (parseInt(currentTime, 10) + i >= 12) {
+      displayTime = parseInt(currentTime, 10) - 12;
+      session = 'pm';
+      if (displayTime + i === 0) {
+        displayTime = 12 - i;
+        session = 'pm';
+      }
+    } else {
+      displayTime = parseInt(currentTime, 10);
+      session = 'am';
+    }
+    const div = document.createElement('div');
+    div.appendChild(elFactory('div', {}, `${displayTime + i} ${session}`));
+
     div.appendChild(
       elFactory('img', {
-        src: `../asset/${key}.svg`,
-        alt: key,
+        src: `http:${data.hourlyInfoValues.hour[i].condition.icon}`,
       })
     );
 
-    div.appendChild(elFactory('div', { class: key }, key));
     div.appendChild(
-      elFactory('div', { class: `${key} values` }, data.extraInfoValues[key])
-    ); */
-  });
+      elFactory('div', {}, `${data.hourlyInfoValues.hour[i].temp_c}°C`)
+    );
+
+    frame.appendChild(div);
+  }
 }
 
 // eslint-disable-next-line

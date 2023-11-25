@@ -84,6 +84,9 @@ input {
   height: 40px;
   margin-left: -50px;
 }
+input::placeholder {
+  font-style: italic;
+}
 
 /* extraInfo card */
 .extraInfo {
@@ -115,7 +118,51 @@ input {
   transform: translate(50%);
 }
 
+/* hourlyInfo card */
 .hourlyInfo {
   grid-column: 1 / 3;
+  color: var(--main-color);
+  background-color: var(--sub-color);
+  border-radius: 10px;
   border: 5px solid black !important;
+  overflow: auto;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+}
+.hourlyInfo > div > div {
+  font-size: 1.5rem;
+  margin: 10px;
+  font-weight: bold;
+  opacity: 0.7;
+}
+.hourlyInfo > div {
+  margin: 10px;
+}
+.hourlyInfo > div > img {
+  height: 100px;
+  margin: 10px;
+}
+
+/* temperature box */
+.temperatureSwitch {
+  width: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+.temperatureSwitch > div {
+  font-size: 1.5rem;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.temperatureSwitch > div:first-child {
+  border-right: 5px solid black;
 }
