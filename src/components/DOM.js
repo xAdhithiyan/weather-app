@@ -2,17 +2,23 @@ import elFactory from '../elFactory';
 import processWeather from './api';
 
 async function populateCards(area) {
-  const data = await processWeather(area);
-
-  // all the cards to be populated
-  currentWeatherCard(data);
-  extraInfoCard(data);
-  hourlyInfoCard(data);
-  resetTemperatureSwitch();
+  try {
+    const data = await processWeather(area);
+    // all the cards to be populated
+    currentWeatherCard(data);
+    extraInfoCard(data);
+    hourlyInfoCard(data);
+    resetTemperatureSwitch();
+  } catch (error) {
+    console.log(error);
+    errorHandling();
+  }
 }
 
 function currentWeatherCard(data) {
   const frame = document.querySelector('.currentWeather');
+  frame.innerHTML = '';
+  document.querySelector('.errorMessage').textContent = '';
   Object.keys(data.currentWeatherValues).forEach((key) => {
     if (key === 'name') {
       frame.appendChild(
@@ -147,7 +153,6 @@ const searchArea = (() => {
 })();
 
 function searchEvent() {
-  document.querySelector('.currentWeather').innerHTML = '';
   const area = document.querySelector('.searchBar').value;
   populateCards(area);
   document.querySelector('.searchBar').value = '';
@@ -185,7 +190,9 @@ function resetTemperatureSwitch() {
   btn.children[1].classList.remove('toggle');
 }
 
-// to populate when the window opens
-populateCards('chennai');
+function errorHandling() {
+  const span = document.querySelector('.errorMessage');
+  span.textContent = '*Please enter a valid city';
+}
 
 export default populateCards;

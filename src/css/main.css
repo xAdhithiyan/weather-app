@@ -67,6 +67,7 @@ body {
   grid-auto-flow: column;
   color: var(--sub-color);
   gap: 10px;
+  position: relative;
 }
 input {
   outline: none;
@@ -86,6 +87,7 @@ input {
 }
 input::placeholder {
   font-style: italic;
+  color: var(--sub-color);
 }
 
 /* extraInfo card */
@@ -182,4 +184,13 @@ input::placeholder {
 
 #displayToggle {
   display: none;
+}
+
+/* error messages */
+.errorMessage {
+  position: absolute;
+  top: 100%;
+  margin: 5px;
+  font-style: italic;
+  opacity: 0.7;
 }
